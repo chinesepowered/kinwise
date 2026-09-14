@@ -1074,18 +1074,18 @@ button {
   white-space: nowrap;
   line-height: 1.1;
 }
-.row.chain.resolved {
+.row.chain.is-resolved {
   background: #edf1e8;
   border-color: #b9c9b2;
   transition: background 1.2s ease, border-color 1.2s ease;
 }
-.row.chain.resolved::before {
+.row.chain.is-resolved::before {
   background: var(--sage);
 }
-.row.chain.resolved .row-icon {
+.row.chain.is-resolved .row-icon {
   background: var(--sage);
 }
-.feed-list:has(.row.resolved) .rail {
+.feed-list:has(.row.is-resolved) .rail {
   background: var(--sage);
 }
 .row.request-done .stamp-request {

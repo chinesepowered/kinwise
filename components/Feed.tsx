@@ -53,7 +53,7 @@ export default function Feed({ events, marks, incident }: { events: ActivityEven
           const open = incident?.status === "open";
           const cls = mark === "request" ? (open ? "request" : "chain request-done") : inChain ? "chain" : mark === "signal" ? "signal" : "routine";
           return (
-            <li key={e.id} className={`row ${cls} ${incident && !open && (inChain || mark === "request") ? "resolved" : ""}`} data-event={e.id} data-testid={`event-${e.id}`}>
+            <li key={e.id} className={`row ${cls} ${incident && !open && (inChain || mark === "request") ? "is-resolved" : ""}`} data-event={e.id} data-testid={`event-${e.id}`}>
               <span className="row-time">{clock12(e.at)}</span>
               <span className="row-icon">
                 <KindIcon kind={e.kind} size={15} />
