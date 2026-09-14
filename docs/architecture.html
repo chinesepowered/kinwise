@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Kinwise architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root { --paper:#f3ece0; --card:#fbf8f2; --ink:#221d19; --ink2:#5c5249; --ink3:#8a7f73; --line:#ddd1bf; --sage:#56715a; --sage-soft:#dfe7da; --amber:#b86e0b; --amber-b:#f0a33a; --amber-soft:#f7e6c6; --red:#b3261e; --red-soft:#f8dcd6; --panel:#1c1916; --panel2:#26221e; --pline:#3a332d; --ptext:#efe6d8; --pdim:#9b9082; --mint:#7fc4a4; }
+  * { box-sizing: border-box; }
+  body { margin:0; width:1800px; height:1060px; background:var(--paper); color:var(--ink); font-family:"Instrument Sans",system-ui,sans-serif; padding:40px 48px; }
+  h1 { font-family:Fraunces,Georgia,serif; font-size:40px; margin:0; font-weight:700; letter-spacing:-.01em; }
+  .sub { color:var(--ink2); font-size:17px; margin:6px 0 26px; }
+  .cols { display:grid; grid-template-columns: 300px 60px 380px 60px 560px 60px 260px; align-items:stretch; }
+  .col { border-radius:22px; padding:20px; display:flex; flex-direction:column; gap:12px; }
+  .k { font-size:12px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--ink3); }
+  .t { font-family:Fraunces,Georgia,serif; font-size:24px; font-weight:700; line-height:1.1; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:11px 13px; font-size:15px; line-height:1.35; }
+  .box b { display:block; font-size:15.5px; }
+  .box small { color:var(--ink2); font-size:13px; }
+  .mono { font-family:"JetBrains Mono",monospace; font-size:12.5px; }
+  .src { background:#ebe2d3; }
+  .det { background:var(--card); border:2px solid var(--sage); }
+  .det .box { background:var(--sage-soft); border-color:#c3d2bd; }
+  .agent { background:var(--panel); color:var(--ptext); }
+  .agent .k { color:var(--amber-b); }
+  .agent .box { background:var(--panel2); border-color:var(--pline); color:var(--ptext); }
+  .agent .box small { color:var(--pdim); }
+  .hook { border:2px solid #e0483c !important; background:#3a1411 !important; }
+  .hook li { margin:3px 0; }
+  .fam { background:var(--card); border:2px solid var(--red); }
+  .arrow { display:flex; align-items:center; justify-content:center; flex-direction:column; color:var(--ink3); font-size:12px; text-align:center; gap:6px; }
+  .arrow svg { width:56px; }
+  .tools { display:grid; grid-template-columns:1fr 1fr; gap:3px 12px; margin-top:6px; }
+  .tools span { font-family:"JetBrains Mono",monospace; font-size:12px; color:#e9dfcf; }
+  .tools span.m { color:var(--amber-b); }
+  ul { margin:6px 0 0; padding-left:18px; }
+  .return { margin:22px 0 0 740px; width:940px; border-radius:16px; border:2px dashed var(--red); padding:12px 18px; font-size:15px; display:flex; align-items:center; gap:12px; background:var(--red-soft); }
+  .foot { display:flex; gap:14px; margin-top:22px; }
+  .pill { background:var(--card); border:1px solid var(--line); border-radius:999px; padding:8px 14px; font-size:14px; }
+  .pill b { color:var(--amber); }
+  .phone { width:100%; border-radius:26px; background:linear-gradient(165deg,#273451,#5b4768 52%,#c97c55); color:white; padding:14px; }
+  .note { background:rgba(250,246,240,.9); color:var(--ink); border-radius:12px; padding:8px 10px; font-size:13px; box-shadow:0 0 0 2px var(--red); }
+  .btnrow { display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+  .btn { border-radius:10px; padding:8px; text-align:center; font-weight:700; font-size:13.5px; }
+  .btn.r { background:var(--red); color:white; } .btn.o { border:1px solid rgba(255,255,255,.6); }
+</style>
+</head>
+<body>
+  <h1>Kinwise architecture</h1>
+  <div class="sub">Quiet deterministic watching → a Strands agent only when money is at risk → one decision for the family. Every tool call passes a safety hook.</div>
+
+  <div class="cols">
+    <div class="col src">
+      <div class="k">1 · Signals</div>
+      <div class="t">Ruth's accounts &amp; phone</div>
+      <div class="box"><b>Card &amp; bank feed</b><small>charges, new payees, wires, hold-release requests</small></div>
+      <div class="box"><b>Call log</b><small>number, caller ID, duration, known contact?</small></div>
+      <div class="box"><b>Texts &amp; email</b><small>sender, known contact?, body</small></div>
+      <div class="box"><small>Demo: a seeded, fictional Tuesday (<span class="mono">lib/scenario.ts</span>). Production: bank / carrier connectors with consent.</small></div>
+    </div>
+
+    <div class="arrow"><svg viewBox="0 0 56 20"><path d="M2 10h46m-8-7 8 7-8 7" fill="none" stroke="#8a7f73" stroke-width="2.5"/></svg>every event</div>
+
+    <div class="col det">
+      <div class="k" style="color:var(--sage)">2 · Quiet mode · no model</div>
+      <div class="t">Deterministic sweep</div>
+      <div class="box"><b>10 scam detectors</b><small>unknown long call · family-emergency script · gift-card codes · government threat · tech-support alarm · remote access · new payee · gift cards · wire to new payee · crypto ATM</small><div class="mono" style="margin-top:4px">lib/detectors.ts</div></div>
+      <div class="box"><b>Correlator</b><small>3-hour window, weighted score, wakes the agent only at score ≥ 4 with money at risk</small></div>
+      <div class="box"><b>Policy auto-hold</b><small>new money events linked to an open incident are held instantly, no model call</small><div class="mono" style="margin-top:4px">lib/orchestrator.ts</div></div>
+    </div>
+
+    <div class="arrow"><svg viewBox="0 0 56 20"><path d="M2 10h46m-8-7 8 7-8 7" fill="none" stroke="#b86e0b" stroke-width="2.5"/></svg><span style="color:var(--amber)">escalation<br/>wakes agent</span></div>
+
+    <div class="col agent">
+      <div class="k">3 · Strands Agents SDK (TypeScript) · /api/agent</div>
+      <div class="t">Kinwise agent</div>
+      <div class="box"><b>Agent loop</b><small>new Agent({ model, tools, systemPrompt }) per run: <span class="mono">triage</span> · <span class="mono">release_request</span> · <span class="mono">family_decision</span>. Streams NDJSON to the UI.</small>
+        <div class="mono" style="margin-top:5px;color:var(--amber-b)">OpenAIModel → W&amp;B Inference · Qwen3.8-27B · temperature 0</div></div>
+      <div class="box"><b>11 tools</b>
+        <div class="tools">
+          <span>review_activity</span><span>review_incident</span>
+          <span>open_incident</span><span class="m">place_hold</span>
+          <span>draft_message_to_mom</span><span>notify_family</span>
+          <span class="m">release_hold</span><span class="m">cancel_held_transactions</span>
+          <span class="m">block_payee</span><span>send_message_to_mom</span>
+          <span>close_incident</span>
+        </div>
+        <small>Amounts and transaction links come from the detectors, never from the model.</small></div>
+      <div class="box hook"><b style="color:#ff8a80">BeforeToolCallEvent hook · safety policy</b>
+        <ul style="font-size:13.5px">
+          <li><b style="display:inline">R1</b> money never moves or unfreezes without the family's decision</li>
+          <li><b style="display:inline">R2</b> holds &amp; blocks only on linked transactions and payees</li>
+          <li><b style="display:inline">R3</b> secure the money before alerting · <b style="display:inline">R4</b> evidence threshold</li>
+          <li><b style="display:inline">R5</b> messages to Ruth are kind, sent after the decision · step cap 12</li>
+        </ul>
+        <div class="mono" style="margin-top:4px;color:var(--pdim)">lib/policy.ts · AfterToolCallEvent + ModelMessageEvent → live activity stream</div></div>
+    </div>
+
+    <div class="arrow"><svg viewBox="0 0 56 20"><path d="M2 10h46m-8-7 8 7-8 7" fill="none" stroke="#b3261e" stroke-width="2.5"/></svg><span style="color:var(--red)">one<br/>decision</span></div>
+
+    <div class="col fam">
+      <div class="k" style="color:var(--red)">4 · Human in the loop</div>
+      <div class="t">Elena's phone</div>
+      <div class="phone">
+        <div class="note"><b>Mom tried to release a $7,500 wire</b><br/>Still on hold. Call her now.</div>
+        <div class="btnrow"><div class="btn r">Block &amp; call Mom</div><div class="btn o">It's legit, release</div></div>
+      </div>
+      <div class="box"><small>Evidence, what was already held, and a kind message for Mom drafted by the agent.</small></div>
+    </div>
+  </div>
+
+  <div class="return">↩ <span>Elena's tap starts a <b>family_decision</b> run: the hook now allows <span class="mono">cancel_held_transactions</span> / <span class="mono">block_payee</span> (Block) or <span class="mono">release_hold</span> (Approve), then the message to Mom is sent.</span></div>
+
+  <div class="foot">
+    <span class="pill">Next.js 16 on <b>Vercel</b> (Node runtime)</span>
+    <span class="pill"><b>@strands-agents/sdk</b> · Agent, tool(), hooks, OpenAIModel</span>
+    <span class="pill">State travels with each request; production would use AgentCore Memory / DynamoDB</span>
+    <span class="pill">Per-IP rate limit on /api/agent</span>
+  </div>
+</body>
+</html>

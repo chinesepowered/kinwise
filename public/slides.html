@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinwise · pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root { --paper:#f3ece0; --card:#fbf8f2; --ink:#221d19; --ink2:#5c5249; --ink3:#8a7f73; --line:#ddd1bf; --sage:#56715a; --sage-soft:#dfe7da; --amber:#b86e0b; --amber-b:#f0a33a; --amber-soft:#f7e6c6; --red:#b3261e; --red-soft:#f8dcd6; --panel:#1c1916; --panel2:#26221e; --pline:#3a332d; --ptext:#efe6d8; --pdim:#9b9082; --mint:#7fc4a4; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; overflow:hidden; background:var(--paper); }
+  body { font-family:"Instrument Sans",system-ui,sans-serif; color:var(--ink); display:grid; place-items:center;
+    background: radial-gradient(1200px 700px at 8% -10%, #fbf4e6 0%, transparent 60%), radial-gradient(900px 600px at 110% 110%, #e9dcc6 0%, transparent 60%), var(--paper); }
+  .stage { width:1600px; height:900px; position:absolute; left:calc(50% - 800px); top:calc(50% - 450px); transform-origin:center; }
+  .slide { position:absolute; inset:0; padding:70px 100px; display:none; flex-direction:column; }
+  .s2, .s3, .s4 { justify-content:center; }
+  .s1 .lede { max-width:820px; }
+  .s1 .hook { max-width:900px; }
+  .slide.on { display:flex; animation:in .6s cubic-bezier(.2,.8,.2,1); }
+  @keyframes in { from { opacity:0; transform:translateY(14px); } }
+  .kick { font-size:15px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--ink3); }
+  h1, h2 { font-family:Fraunces,Georgia,serif; margin:0; letter-spacing:-.015em; }
+  .foot { margin-top:auto; display:flex; justify-content:space-between; color:var(--ink3); font-size:15px; }
+  .mono { font-family:"JetBrains Mono",monospace; }
+  .pager { position:absolute; right:100px; bottom:40px; font-family:"JetBrains Mono",monospace; font-size:13px; color:var(--ink3); }
+
+  /* 1 */
+  .s1 { justify-content:center; }
+  .s1 .brand { display:flex; align-items:center; gap:22px; }
+  .s1 h1 { font-size:132px; font-weight:700; line-height:.95; }
+  .s1 .hook { font-family:Fraunces,Georgia,serif; font-style:italic; font-size:58px; margin:28px 0 22px; color:var(--ink); }
+  .s1 .hook span { color:var(--amber); }
+  .s1 .lede { font-size:26px; line-height:1.45; color:var(--ink2); max-width:1060px; }
+  .s1 .tags { display:flex; gap:12px; margin-top:44px; }
+  .tag { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:10px 18px; font-size:17px; }
+  .tag b { color:var(--amber); }
+  .s1 .phone-note { position:absolute; right:110px; top:210px; width:390px; background:linear-gradient(165deg,#273451,#5b4768 52%,#c97c55); border-radius:40px; padding:26px 18px 30px; transform:rotate(3deg); box-shadow:0 40px 80px -40px rgba(40,20,0,.6); }
+  .note { background:rgba(250,246,240,.92); border-radius:18px; padding:13px 15px; box-shadow:0 0 0 2.5px var(--red); }
+  .note small { font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--ink2); }
+  .note b { display:block; font-size:18px; margin:3px 0; }
+  .note span { font-size:14.5px; color:var(--ink2); line-height:1.35; }
+  .btnr { margin-top:12px; background:var(--red); color:white; border-radius:14px; text-align:center; padding:12px; font-weight:700; font-size:16px; }
+  .btno { margin-top:8px; border:1px solid rgba(255,255,255,.6); color:white; border-radius:14px; text-align:center; padding:9px; font-size:14px; }
+  .s1 .time { color:white; font-family:Fraunces,Georgia,serif; font-size:74px; text-align:center; margin-bottom:14px; }
+
+  /* 2 */
+  .s2 h2 { font-size:60px; line-height:1.05; max-width:1300px; margin:16px 0 40px; }
+  .stats { display:grid; grid-template-columns:1.25fr 1fr 1fr; gap:22px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:24px; padding:28px 30px; }
+  .stat .n { font-family:Fraunces,Georgia,serif; font-weight:700; font-size:76px; line-height:1; color:var(--red); }
+  .stat .d { font-size:20px; line-height:1.4; color:var(--ink2); margin-top:12px; }
+  .stat .src { font-size:13px; color:var(--ink3); margin-top:12px; }
+  .story { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:22px; }
+  .chain { background:var(--red-soft); border:1px solid #e7b3aa; border-radius:24px; padding:22px 28px; }
+  .chain .steps { display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center; margin-top:10px; font-size:18px; }
+  .chain .steps span.s { background:white; border-radius:10px; padding:6px 11px; border:1px solid #e7b3aa; }
+  .chain .steps span.a { color:var(--red); font-weight:700; }
+  .who { background:var(--panel); color:var(--ptext); border-radius:24px; padding:22px 28px; font-size:21px; line-height:1.45; }
+  .who b { color:var(--amber-b); }
+  .label { font-size:13px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--ink3); }
+  .who .label { color:var(--pdim); }
+
+  /* 3 */
+  .s3 h2 { font-size:56px; margin:14px 0 36px; }
+  .flow { display:grid; grid-template-columns:1fr 60px 1.25fr 60px 1fr; align-items:stretch; }
+  .fcol { border-radius:26px; padding:26px; display:flex; flex-direction:column; gap:12px; }
+  .fcol h3 { font-family:Fraunces,Georgia,serif; font-size:32px; margin:0; }
+  .fcol p { margin:0; font-size:18.5px; line-height:1.45; }
+  .q { background:var(--card); border:2px solid var(--sage); }
+  .q .label { color:var(--sage); }
+  .ag { background:var(--panel); color:var(--ptext); }
+  .ag .label { color:var(--amber-b); }
+  .ag p { color:#d9cfc1; }
+  .fam { background:var(--card); border:2px solid var(--red); }
+  .fam .label { color:var(--red); }
+  .arr { display:grid; place-items:center; font-size:38px; color:var(--ink3); }
+  .code { font-family:"JetBrains Mono",monospace; font-size:14.5px; background:var(--panel2); border:1px solid var(--pline); border-radius:12px; padding:12px 14px; color:#e9dfcf; line-height:1.6; }
+  .code .k { color:var(--amber-b); }
+  .rules { display:flex; flex-wrap:wrap; gap:7px; }
+  .rules span { border:1px solid #e0483c; background:#3a1411; color:#ffd4cf; border-radius:999px; padding:5px 11px; font-size:14px; }
+  .stack { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+
+  /* 4 */
+  .s4 h2 { font-size:76px; line-height:1.02; max-width:1250px; margin:16px 0 42px; }
+  .s4 h2 em { color:var(--amber); font-style:italic; }
+  .pts { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .pt { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:24px; }
+  .pt b { display:block; font-family:Fraunces,Georgia,serif; font-size:27px; margin-bottom:10px; line-height:1.1; }
+  .pt span { font-size:18px; color:var(--ink2); line-height:1.45; }
+  .next { margin-top:26px; background:var(--panel); color:var(--ptext); border-radius:22px; padding:22px 28px; font-size:19px; line-height:1.5; display:flex; gap:30px; align-items:center; }
+  .next .label { color:var(--amber-b); white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <section class="slide s1" data-s="1">
+    <div class="brand">
+      <svg width="96" height="96" viewBox="0 0 32 32"><path d="M16 3.5 4.5 12.2V27a1.5 1.5 0 0 0 1.5 1.5h20a1.5 1.5 0 0 0 1.5-1.5V12.2Z" fill="#221d19"/><path d="M16 22.6s-5.2-3.1-5.2-6.6a2.9 2.9 0 0 1 5.2-1.8 2.9 2.9 0 0 1 5.2 1.8c0 3.5-5.2 6.6-5.2 6.6Z" fill="#f0a33a"/></svg>
+      <h1>Kinwise</h1>
+    </div>
+    <div class="hook">A quiet guardian for <span>Mom's money.</span></div>
+    <div class="lede">A Strands agent that watches an aging parent's accounts, stops scam payments before they leave, and asks the family one clear question.</div>
+    <div class="tags">
+      <span class="tag">Agents for Humans · <b>Everyday Agents</b></span>
+      <span class="tag">Built with <b>Strands Agents SDK</b></span>
+    </div>
+    <div class="phone-note">
+      <div class="time">2:14</div>
+      <div class="note"><small>KINWISE · now</small><b>Mom tried to release a $7,500 wire</b><span>It's still on hold. The caller is likely still on the line. Call her now.</span></div>
+      <div class="btnr">Block &amp; call Mom</div>
+      <div class="btno">It's legit, release</div>
+    </div>
+    <div class="foot"><span></span></div>
+  </section>
+
+  <section class="slide s2" data-s="2">
+    <div class="kick">The problem · who it's for</div>
+    <h2>Scammers target older adults, and the money is gone in about an hour.</h2>
+    <div class="stats">
+      <div class="stat"><div class="n">$7.7B</div><div class="d">reported lost to internet crime by Americans 60 and older in 2025, <b>up about 60%</b> from 2024.</div><div class="src">FBI IC3 2025 data, via AARP (Apr 16, 2026)</div></div>
+      <div class="stat"><div class="n">4×</div><div class="d">growth in fraud losses reported to the FTC by older adults: about $600M in 2020 to $2.4B in 2024.</div><div class="src">FTC, Protecting Older Consumers 2024–2025</div></div>
+      <div class="stat"><div class="n">$1,600+</div><div class="d">median reported loss for people 80 and over, far higher than for younger adults.</div><div class="src">FTC, Protecting Older Consumers 2024–2025</div></div>
+    </div>
+    <div class="story">
+      <div class="chain">
+        <div class="label" style="color:var(--red)">The grandparent scam</div>
+        <div class="steps"><span class="s">"Grandma, it's Danny"</span><span class="a">→</span><span class="s">"don't tell Mom"</span><span class="a">→</span><span class="s">a "lawyer" calls</span><span class="a">→</span><span class="s">gift cards</span><span class="a">→</span><span class="s">a wire</span></div>
+      </div>
+      <div class="who">
+        <div class="label">Who it's for</div>
+        The <b>adult children</b> who look after a parent from another city, and the <b>parents</b> who want to stay independent without handing over their accounts.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide s3" data-s="3">
+    <div class="kick">How it works</div>
+    <h2>Quiet by default. An agent only when money is at risk.</h2>
+    <div class="flow">
+      <div class="fcol q">
+        <div class="label">1 · Quiet mode · no model</div>
+        <h3>Deterministic sweep</h3>
+        <p>10 scam detectors run on every charge, call, text and email. A correlator scores signals in a 3-hour window and wakes the agent only at score ≥ 4 with money at risk.</p>
+        <p>New money linked to an open incident is held instantly by policy.</p>
+      </div>
+      <div class="arr">→</div>
+      <div class="fcol ag">
+        <div class="label">2 · Strands Agents SDK</div>
+        <h3>Kinwise agent</h3>
+        <div class="code"><span class="k">new</span> Agent({ model, tools, systemPrompt })<br/>agent.addHook(<span class="k">BeforeToolCallEvent</span>, checkPolicy)<br/>OpenAIModel → Qwen3.8-27B · temperature 0</div>
+        <p>3 runs (triage · release request · family decision), 11 tools: hold, alert, draft message, cancel, block payee… Amounts always come from code.</p>
+        <div class="rules"><span>R1 family decides on money</span><span>R2 linked charges only</span><span>R3 secure, then alert</span><span>R4 evidence threshold</span><span>R5 kind to Ruth</span></div>
+      </div>
+      <div class="arr">→</div>
+      <div class="fcol fam">
+        <div class="label">3 · Human in the loop</div>
+        <h3>One decision</h3>
+        <p>Elena gets one notification: what happened, what's already on hold, and a kind message for her mom.</p>
+        <p><b>Block &amp; call Mom</b> or <b>release</b>. Her tap starts the next agent run.</p>
+      </div>
+    </div>
+    <div class="stack">
+      <span class="tag"><b>Strands Agents</b> TypeScript SDK: Agent, tool(), hooks, OpenAIModel</span>
+      <span class="tag">Next.js 16 on <b>Vercel</b></span>
+      <span class="tag">W&amp;B Inference (OpenAI-compatible)</span>
+    </div>
+  </section>
+
+  <section class="slide s4" data-s="4">
+    <div class="kick">Why it matters</div>
+    <h2>Nobody should lose their savings <em>for loving their grandchild.</em></h2>
+    <div class="pts">
+      <div class="pt"><b>Stops it before, not after</b><span>Holds the payment while the scam is still happening, when refunds are nearly impossible later.</span></div>
+      <div class="pt"><b>Keeps parents independent</b><span>No account takeover. Quiet by default, one question for the family only when it matters.</span></div>
+      <div class="pt"><b>Kind by design</b><span>Messages to Mom never blame her. Scammers are professionals.</span></div>
+      <div class="pt"><b>Safe where it counts</b><span>Money never moves without the family. That's a Strands hook in code, not a prompt.</span></div>
+    </div>
+    <div class="next"><span class="label">What's next</span><span>Consent-based bank &amp; carrier connectors · Amazon Bedrock AgentCore Runtime and Memory for durable incidents · more patterns: tech-support, romance, government impersonation · a gentle check-in call to Mom.</span></div>
+    <div class="foot"><span>Kinwise · open source (MIT) · github.com/chinesepowered/kinwise</span><span>All people in this demo are fictional.</span></div>
+  </section>
+
+  <div class="pager" id="pager"></div>
+</div>
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.min(Math.max(parseInt(new URLSearchParams(location.search).get('s') || '1', 10), 1), slides.length) - 1;
+  const show = () => { slides.forEach((s, k) => s.classList.toggle('on', k === i)); document.getElementById('pager').textContent = `${i + 1} / ${slides.length}`; history.replaceState(null, '', `?s=${i + 1}`); };
+  const fit = () => { const k = Math.min(innerWidth / 1600, innerHeight / 900); document.getElementById('stage').style.transform = `scale(${k})`; };
+  addEventListener('keydown', (e) => {
+    if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(e.key)) i = Math.min(i + 1, slides.length - 1);
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) i = Math.max(i - 1, 0);
+    else return;
+    e.preventDefault(); show();
+  });
+  addEventListener('click', (e) => { i = e.clientX > innerWidth / 3 ? Math.min(i + 1, slides.length - 1) : Math.max(i - 1, 0); show(); });
+  addEventListener('resize', fit);
+  fit(); show();
+</script>
+</body>
+</html>
