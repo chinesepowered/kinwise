@@ -2,8 +2,8 @@
 
 Kinwise is an **Everyday Agent built with the Strands Agents SDK**. It watches an aging parent's card, bank, phone and email activity. While things are normal it stays silent. When a scam starts, it holds the money before it leaves and asks the adult child exactly one question: **Block & call Mom**, or release. The safety rules live in a Strands hook, so the model cannot move money on its own.
 
-**Live demo:** __LIVE_URL__ (press **Play Ruth's day**)
-**Pitch slides:** __LIVE_URL__/slides.html
+**Live demo:** https://kinwise-kappa.vercel.app (press **Play Ruth's day**)
+**Pitch slides:** https://kinwise-kappa.vercel.app/slides.html
 **Track:** Everyday Agents · **License:** MIT
 
 ![Kinwise architecture](docs/architecture.png)
